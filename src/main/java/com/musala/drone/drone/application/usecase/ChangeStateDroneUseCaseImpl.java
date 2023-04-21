@@ -1,12 +1,18 @@
 package com.musala.drone.drone.application.usecase;
 
 import com.musala.drone.drone.domain.enums.State;
-import com.musala.drone.drone.domain.model.Drone;
 import com.musala.drone.drone.domain.ports.in.drone.IChangeStateDroneUseCase;
+import com.musala.drone.drone.domain.ports.out.IDroneRepositoryPort;
 
 public class ChangeStateDroneUseCaseImpl implements IChangeStateDroneUseCase {
+    private final IDroneRepositoryPort repository;
+
+    public ChangeStateDroneUseCaseImpl(IDroneRepositoryPort repository) {
+        this.repository = repository;
+    }
+
     @Override
     public boolean ChangeStateDrone(Long droneid, State state) {
-        return false;
+        return repository.ChangeStateDrone(droneid,state);
     }
 }

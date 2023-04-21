@@ -20,7 +20,7 @@ public class DroneService implements IDroneService {
     }
 
     @Override
-    public List<DroneContent> CheckLoadedMedications(Long droneId) {
+    public List<GenericContent> CheckLoadedMedications(Long droneId) {
         return null;
     }
 

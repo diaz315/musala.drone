@@ -3,7 +3,6 @@ package com.musala.drone.drone.infrastructure.entities;
 
 import com.musala.drone.drone.domain.enums.Model;
 import com.musala.drone.drone.domain.enums.State;
-import com.musala.drone.drone.domain.model.GenericContent;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,10 +1,8 @@
 package com.musala.drone.drone.application.services;
 
-import com.musala.drone.drone.domain.dto.ContentDto;
-import com.musala.drone.drone.domain.dto.DroneDto;
-import com.musala.drone.drone.domain.enums.State;
+import com.musala.drone.drone.domain.model.Content;
 import com.musala.drone.drone.domain.model.Drone;
-import com.musala.drone.drone.domain.model.Medication;
+import com.musala.drone.drone.domain.enums.State;
 import com.musala.drone.drone.domain.ports.in.drone.*;
 import com.musala.drone.drone.domain.ports.in.services.IDroneService;
 import org.springframework.stereotype.Component;
@@ -39,7 +37,7 @@ public class DroneService implements IDroneService {
     }
 
     @Override
-    public List<DroneDto> GetAvailableDrones()
+    public List<Drone> GetAvailableDrones()
     {
         return checkAvailableDronesForLoadingUseCase.GetAvailableDrones();
     }
@@ -51,18 +49,18 @@ public class DroneService implements IDroneService {
     }
 
     @Override
-    public List<ContentDto> CheckLoadedMedications(Long droneId)
+    public List<Content> CheckLoadedMedications(Long droneId)
     {
         return checkLoadedMedicationItemsForAGivenDroneUseCase.CheckLoadedMedications(droneId);
     }
 
     @Override
-    public boolean LoadDrone(Long droneId, List<ContentDto> content) throws Exception {
+    public boolean LoadDrone(Long droneId, List<Content> content) throws Exception {
         return loadDroneWithMedicationItemsUseCase.LoadDrone(droneId,content);
     }
 
     @Override
-    public Drone SaveDrone(DroneDto drone) {
+    public Drone SaveDrone(Drone drone) {
         return registerDroneUseCase.SaveDrone(drone);
     }
 

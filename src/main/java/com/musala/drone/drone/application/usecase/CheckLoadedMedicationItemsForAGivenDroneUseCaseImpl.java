@@ -1,7 +1,6 @@
 package com.musala.drone.drone.application.usecase;
 
-import com.musala.drone.drone.domain.dto.ContentDto;
-import com.musala.drone.drone.domain.dto.DroneContentDto;
+import com.musala.drone.drone.domain.model.Content;
 import com.musala.drone.drone.domain.model.Drone;
 import com.musala.drone.drone.domain.ports.in.drone.ICheckLoadedMedicationItemsForAGivenDroneUseCase;
 import com.musala.drone.drone.domain.ports.out.IContenRepositoryPort;
@@ -11,7 +10,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class CheckLoadedMedicationItemsForAGivenDroneUseCaseImpl implements ICheckLoadedMedicationItemsForAGivenDroneUseCase {
@@ -26,7 +24,7 @@ public class CheckLoadedMedicationItemsForAGivenDroneUseCaseImpl implements IChe
     }
 
     @Override
-    public List<ContentDto> CheckLoadedMedications(Long droneId)
+    public List<Content> CheckLoadedMedications(Long droneId)
     {
         Drone drone = droneRepository.FindDroneById(droneId);
         if (drone == null) {

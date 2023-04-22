@@ -1,14 +1,13 @@
 package com.musala.drone.drone.domain.ports.out;
 
-import com.musala.drone.drone.domain.dto.ContentDto;
-import com.musala.drone.drone.domain.dto.DroneDto;
-import com.musala.drone.drone.domain.model.Medication;
+import com.musala.drone.drone.domain.model.Content;
+import com.musala.drone.drone.domain.model.Drone;
 
 import java.util.List;
 
 public interface IContenRepositoryPort {
-    public List<ContentDto> SaveContent(List<ContentDto> content, DroneDto drone);
-    public ContentDto SaveContent(ContentDto content, DroneDto drone);
+    public List<Content> SaveContent(List<Content> content, Drone drone);
+    public Content SaveContent(Content content, Drone drone);
 
-    public List<ContentDto> GetGenericContentLoadedByDroneId(Long contentid);
+    public List<Content> GetGenericContentLoadedByDroneId(Long contentid);
 }

@@ -1,10 +1,7 @@
 package com.musala.drone.drone.application.usecase;
 
-import com.musala.drone.drone.domain.dto.ContentDto;
-import com.musala.drone.drone.domain.dto.DroneDto;
+import com.musala.drone.drone.domain.model.Content;
 import com.musala.drone.drone.domain.model.Drone;
-import com.musala.drone.drone.domain.model.GenericContent;
-import com.musala.drone.drone.domain.model.Medication;
 import com.musala.drone.drone.domain.ports.in.drone.ILoadDroneWithMedicationItemsUseCase;
 import com.musala.drone.drone.domain.ports.out.IContenRepositoryPort;
 import com.musala.drone.drone.domain.ports.out.IDroneRepositoryPort;
@@ -34,7 +31,7 @@ public class LoadDroneWithMedicationItemsUseCaseImpl implements ILoadDroneWithMe
     }
 
     @Override
-    public boolean LoadDrone(Long droneId, List<ContentDto> contentList) throws Exception {
+    public boolean LoadDrone(Long droneId, List<Content> contentList) throws Exception {
 
         if(contentList.isEmpty())
             throw new Exception("You must enter at least one content.");
@@ -44,9 +41,9 @@ public class LoadDroneWithMedicationItemsUseCaseImpl implements ILoadDroneWithMe
             throw new EntityNotFoundException("Drone not found");
         }
 
-        var tempCotent = contentList.stream().map(contenentity -> modelMapper.map(contenentity, ContentDto.class)).collect(Collectors.toList());
+        var tempCotent = contentList.stream().map(contenentity -> modelMapper.map(contenentity, Content.class)).collect(Collectors.toList());
 
-        var result = contentRepository.SaveContent(tempCotent,modelMapper.map(drone, DroneDto.class));
+        var result = contentRepository.SaveContent(tempCotent,modelMapper.map(drone, Drone.class));
 
         return !result.isEmpty();
     }

@@ -1,15 +1,12 @@
 package com.musala.drone.drone.infrastructure.controllers;
 
 
-import com.musala.drone.drone.domain.dto.ContentDto;
-import com.musala.drone.drone.domain.dto.DroneContentDto;
-import com.musala.drone.drone.domain.dto.DroneDto;
-import com.musala.drone.drone.domain.enums.State;
+import com.musala.drone.drone.domain.model.Content;
+import com.musala.drone.drone.domain.model.DroneContent;
 import com.musala.drone.drone.domain.model.Drone;
-import com.musala.drone.drone.domain.model.Medication;
+import com.musala.drone.drone.domain.enums.State;
 import com.musala.drone.drone.domain.ports.in.services.IDroneService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +34,10 @@ public class DroneController {
     @Operation(summary = "Get Avalaible Dron")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful operation",
-                    content = @Content(mediaType = "application/json"))
+                    content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json"))
     })
 
-    public ResponseEntity<List<DroneDto>> GetAvailableDrones() {
+    public ResponseEntity<List<Drone>> GetAvailableDrones() {
         var result = droneService.GetAvailableDrones();
         return ResponseEntity.ok(result);
     }
@@ -49,7 +46,7 @@ public class DroneController {
     @Operation(summary = "Check battery drone")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful operation",
-                    content = @Content(mediaType = "application/json"))
+                    content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json"))
     })
 
     public ResponseEntity<Optional<Integer>> CheckDroneBattery(Long droneid) {
@@ -61,10 +58,10 @@ public class DroneController {
     @Operation(summary = "Check Loaded content")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful operation",
-                    content = @Content(mediaType = "application/json"))
+                    content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json"))
     })
 
-    public ResponseEntity<List<ContentDto>> CheckLoadedMedication(Long droneid) {
+    public ResponseEntity<List<Content>> CheckLoadedMedication(Long droneid) {
         var result = droneService.CheckLoadedMedications(droneid);
         return ResponseEntity.ok(result);
     }
@@ -74,10 +71,10 @@ public class DroneController {
     @Operation(summary = "Load Dron")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful operation",
-                    content = @Content(mediaType = "application/json"))
+                    content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json"))
     })
 
-    public ResponseEntity<Boolean> LoadDrone(@RequestBody DroneContentDto content) throws Exception {
+    public ResponseEntity<Boolean> LoadDrone(@RequestBody DroneContent content) throws Exception {
         var result = droneService.LoadDrone(content.getDroneid(),content.getContentList());
         return ResponseEntity.ok(result);
     }
@@ -86,10 +83,10 @@ public class DroneController {
     @Operation(summary = "Add new drone")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful operation",
-                    content = @Content(mediaType = "application/json"))
+                    content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json"))
     })
 
-    public ResponseEntity<Drone> Addrone(@RequestBody DroneDto drone) {
+    public ResponseEntity<Drone> Addrone(@RequestBody Drone drone) {
         Drone result = droneService.SaveDrone(drone);
         return ResponseEntity.ok(result);
     }
@@ -98,7 +95,7 @@ public class DroneController {
     @Operation(summary = "Change state drone")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful operation",
-                    content = @Content(mediaType = "application/json"))
+                    content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json"))
     })
 
     public ResponseEntity<Boolean> CheckDroneBattery(Long droneid, State state) {

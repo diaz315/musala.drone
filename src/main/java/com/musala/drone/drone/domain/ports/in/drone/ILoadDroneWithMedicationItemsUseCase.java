@@ -1,11 +1,9 @@
 package com.musala.drone.drone.domain.ports.in.drone;
 
-import com.musala.drone.drone.domain.dto.ContentDto;
-import com.musala.drone.drone.domain.model.GenericContent;
-import com.musala.drone.drone.domain.model.Medication;
+import com.musala.drone.drone.domain.model.Content;
 
 import java.util.List;
 
 public interface ILoadDroneWithMedicationItemsUseCase {
-    boolean LoadDrone(Long droneId, List<ContentDto> content) throws Exception;
+    boolean LoadDrone(Long droneId, List<Content> content) throws Exception;
 }

@@ -1,8 +1,7 @@
 package com.musala.drone.drone.infrastructure.repositories.implementation;
 
-import com.musala.drone.drone.domain.dto.ContentDto;
-import com.musala.drone.drone.domain.dto.DroneDto;
-import com.musala.drone.drone.domain.model.Medication;
+import com.musala.drone.drone.domain.model.Content;
+import com.musala.drone.drone.domain.model.Drone;
 import com.musala.drone.drone.domain.ports.out.IContenRepositoryPort;
 import com.musala.drone.drone.infrastructure.entities.ContentEntity;
 import com.musala.drone.drone.infrastructure.entities.DroneEntity;
@@ -28,7 +27,7 @@ public class JpaContenRepositoryImpl implements IContenRepositoryPort {
 
     @Override
     //LoadDroneContent
-    public List<ContentDto> SaveContent(List<ContentDto> content, DroneDto drone) {
+    public List<Content> SaveContent(List<Content> content, Drone drone) {
         var tempContent = content.stream()
                 .map(conentenEntity -> modelMapper.map(conentenEntity, ContentEntity.class)).collect(Collectors.toList());
 
@@ -37,26 +36,26 @@ public class JpaContenRepositoryImpl implements IContenRepositoryPort {
         var response = jpaContenRepository.saveAll(tempContent);
 
         var cresp = response.stream()
-                .map(conentenEntity -> modelMapper.map(conentenEntity, ContentDto.class)).collect(Collectors.toList());
+                .map(conentenEntity -> modelMapper.map(conentenEntity, Content.class)).collect(Collectors.toList());
 
         return cresp;
     }
 
     @Override
-    public ContentDto SaveContent(ContentDto content, DroneDto drone) {
+    public Content SaveContent(Content content, Drone drone) {
         var tempContent = modelMapper.map(content,ContentEntity.class);
         tempContent.setDrone(modelMapper.map(drone,DroneEntity.class));
         var response = jpaContenRepository.save(tempContent);
-        var castResult = modelMapper.map(response, ContentDto.class);
+        var castResult = modelMapper.map(response, Content.class);
 
         return castResult;
     }
 
     @Override
-    public List<ContentDto> GetGenericContentLoadedByDroneId(Long droneId)
+    public List<Content> GetGenericContentLoadedByDroneId(Long droneId)
     {
         var result = jpaContenRepository.getContentLoadedByDroneId(droneId);
-        var cv = result.stream().map(rentity -> modelMapper.map(rentity,ContentDto.class)).collect(Collectors.toList());
+        var cv = result.stream().map(rentity -> modelMapper.map(rentity, Content.class)).collect(Collectors.toList());
         return cv;
     }
 }

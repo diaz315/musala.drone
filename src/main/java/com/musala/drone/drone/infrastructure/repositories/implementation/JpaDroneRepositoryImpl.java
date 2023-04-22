@@ -1,8 +1,7 @@
 package com.musala.drone.drone.infrastructure.repositories.implementation;
 
-import com.musala.drone.drone.domain.dto.DroneDto;
-import com.musala.drone.drone.domain.enums.State;
 import com.musala.drone.drone.domain.model.Drone;
+import com.musala.drone.drone.domain.enums.State;
 import com.musala.drone.drone.domain.ports.out.IDroneRepositoryPort;
 import com.musala.drone.drone.infrastructure.entities.DroneEntity;
 import com.musala.drone.drone.infrastructure.repositories.interfaces.IJpaDroneRepository;
@@ -28,18 +27,18 @@ public class JpaDroneRepositoryImpl implements IDroneRepositoryPort
     }
 
     @Override
-    public List<DroneDto> GetAvailableDrones() {
+    public List<Drone> GetAvailableDrones() {
          var query = jpaDroneRepository.findAllByState(State.IDLE);
 
          var result = query.stream()
-                .map(medicationEntity -> modelMapper.map(medicationEntity, DroneDto.class))
+                .map(medicationEntity -> modelMapper.map(medicationEntity, Drone.class))
                 .collect(Collectors.toList());
 
         return result;
     }
 
     @Override
-    public Drone SaveDrone(DroneDto drone) {
+    public Drone SaveDrone(Drone drone) {
         var dronEntity = modelMapper.map(drone, DroneEntity.class);
 
         var serialDrone = jpaDroneRepository.findBySerialNumber(drone.getSerialNumber());

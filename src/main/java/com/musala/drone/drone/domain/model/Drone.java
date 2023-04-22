@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,5 +16,4 @@ public class Drone {
     private double weightLimit;
     private int batteryCapacity;
     private State state;
-    private List<GenericContent> contents;
 }

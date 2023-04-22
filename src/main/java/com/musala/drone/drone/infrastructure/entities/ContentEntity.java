@@ -1,8 +1,6 @@
 package com.musala.drone.drone.infrastructure.entities;
 
 
-import com.musala.drone.drone.domain.model.GenericContent;
-import com.musala.drone.drone.domain.model.Medication;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,4 +28,7 @@ public class ContentEntity {
     @Column(name = "image")
     private String image;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "drone_id")
+    private DroneEntity drone;
 }

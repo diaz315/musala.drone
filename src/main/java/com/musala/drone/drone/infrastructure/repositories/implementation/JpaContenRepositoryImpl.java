@@ -24,6 +24,7 @@ public class JpaContenRepositoryImpl implements IContenRepositoryPort {
     }
 
     @Override
+    //LoadDroneContent
     public List<Medication> SaveContent(List<Medication> content) {
         var tempContent = content.stream()
                 .map(conentenEntity -> modelMapper.map(conentenEntity, ContentEntity.class)).collect(Collectors.toList());
@@ -38,11 +39,18 @@ public class JpaContenRepositoryImpl implements IContenRepositoryPort {
 
     @Override
     public Medication SaveContent(Medication content) {
-        return null;
+        var tempContent = modelMapper.map(content,ContentEntity.class);
+        var response = jpaContenRepository.save(tempContent);
+        var castResult = modelMapper.map(response, Medication.class);
+
+        return castResult;
     }
 
     @Override
-    public List<Medication> GetGenericContentLoadedByDroneId(Long contentid) {
-        return null;
+    public List<Medication> GetGenericContentLoadedByDroneId(Long droneId)
+    {
+        var result = jpaContenRepository.getContentLoadedByDroneId(droneId);
+        var cv = result.stream().map(rentity -> modelMapper.map(rentity,Medication.class)).collect(Collectors.toList());
+        return cv;
     }
 }

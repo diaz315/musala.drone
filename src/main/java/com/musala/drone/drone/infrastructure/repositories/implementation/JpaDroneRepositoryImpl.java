@@ -5,12 +5,12 @@ import com.musala.drone.drone.domain.model.Drone;
 import com.musala.drone.drone.domain.ports.out.IDroneRepositoryPort;
 import com.musala.drone.drone.infrastructure.entities.DroneEntity;
 import com.musala.drone.drone.infrastructure.repositories.interfaces.IJpaDroneRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -44,15 +44,21 @@ public class JpaDroneRepositoryImpl implements IDroneRepositoryPort
     }
 
     @Override
-    public boolean ChangeStateDrone(Long droneid, State state) {
-        return false;
+    public boolean ChangeStateDrone(Long droneid, State state)
+    {
+        var result =  jpaDroneRepository.changeStateDroneById(droneid,state);
+        return result > 0;
     }
 
     @Override
     public Drone FindDroneById(Long droneid) {
         var dronEntity= jpaDroneRepository.findById(droneid).get();
+
+        if (dronEntity == null) {
+            throw new EntityNotFoundException("Drone not found");
+        }
+
         var drone = modelMapper.map(dronEntity, Drone.class);
         return drone;
-
     }
 }

@@ -1,5 +1,6 @@
-package com.musala.drone.drone.domain.model;
+package com.musala.drone.drone.domain.dto;
 
+import com.musala.drone.drone.domain.model.Drone;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,15 +8,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract class GenericContent {
+public class ContentDto {
     private Long id;
     private String name;
     private double weight;
     private String code;
     private String image;
-    private Drone drone;
-
-    protected String GetClassification(){
-        return this.getClass().getSimpleName();
-    }
 }

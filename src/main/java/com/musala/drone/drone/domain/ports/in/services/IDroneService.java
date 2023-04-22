@@ -7,6 +7,7 @@ public interface IDroneService extends
         ICheckDroneBatteryLevelForaGivenDroneUseCase,
         ICheckLoadedMedicationItemsForAGivenDroneUseCase,
         ILoadDroneWithMedicationItemsUseCase,
-        IRegisterdDroneUseCase
+        IRegisterdDroneUseCase,
+        IChangeStateDroneUseCase
 {
 }

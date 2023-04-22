@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,12 +26,12 @@ public class JpaDroneContentRepositoryImpl implements IContentDroneRepositoryPor
     }
 
     @Override
-    public boolean LoadContentInDrone(Long droneid, List<Medication> contentList) {
-
+    public boolean LoadContentInDrone(Long droneid, List<Medication> contentList)
+    {
         var data = new DroneContent();
         data.setDroneid(droneid);
 
-        List<DroneContent> dataToSave = null;
+        List<DroneContent> dataToSave = new ArrayList<>();
 
         for (var current: contentList)
         {
@@ -42,7 +43,7 @@ public class JpaDroneContentRepositoryImpl implements IContentDroneRepositoryPor
 
         var molk = dataToSave.stream()
                 .map(droneContentEntity -> modelMapper.map(droneContentEntity, DroneContentEntity.class))
-                        .collect(Collectors.toList());
+                .collect(Collectors.toList());
 
         jpaDroneContentRepository.saveAll(molk);
 

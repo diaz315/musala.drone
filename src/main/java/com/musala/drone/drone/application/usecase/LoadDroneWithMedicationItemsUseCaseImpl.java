@@ -42,6 +42,6 @@ public class LoadDroneWithMedicationItemsUseCaseImpl implements ILoadDroneWithMe
 
         contentDroneRepository.LoadContentInDrone(droneId, contentList);
 
-        return false;
+        return true;
     }
 }

@@ -13,6 +13,7 @@ import java.util.List;
 @Repository
 public interface IJpaDroneRepository extends JpaRepository<DroneEntity, Long> {
     List<DroneEntity> findAllByState(State state);
+    DroneEntity findBySerialNumber(String serial);
 
     @Modifying(clearAutomatically = true)
     @Query("UPDATE DroneEntity c SET c.state = :state WHERE c.id = :id")

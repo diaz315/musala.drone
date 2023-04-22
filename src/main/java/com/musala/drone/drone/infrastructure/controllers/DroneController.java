@@ -1,7 +1,9 @@
 package com.musala.drone.drone.infrastructure.controllers;
 
 
+import com.musala.drone.drone.domain.dto.ContentDto;
 import com.musala.drone.drone.domain.dto.DroneContentDto;
+import com.musala.drone.drone.domain.dto.DroneDto;
 import com.musala.drone.drone.domain.enums.State;
 import com.musala.drone.drone.domain.model.Drone;
 import com.musala.drone.drone.domain.model.Medication;
@@ -38,7 +40,7 @@ public class DroneController {
                     content = @Content(mediaType = "application/json"))
     })
 
-    public ResponseEntity<List<Drone>> GetAvailableDrones() {
+    public ResponseEntity<List<DroneDto>> GetAvailableDrones() {
         var result = droneService.GetAvailableDrones();
         return ResponseEntity.ok(result);
     }
@@ -62,7 +64,7 @@ public class DroneController {
                     content = @Content(mediaType = "application/json"))
     })
 
-    public ResponseEntity<List<Medication>> CheckLoadedMedication(Long droneid) {
+    public ResponseEntity<List<ContentDto>> CheckLoadedMedication(Long droneid) {
         var result = droneService.CheckLoadedMedications(droneid);
         return ResponseEntity.ok(result);
     }
@@ -87,7 +89,7 @@ public class DroneController {
                     content = @Content(mediaType = "application/json"))
     })
 
-    public ResponseEntity<Drone> Addrone(@RequestBody Drone drone) {
+    public ResponseEntity<Drone> Addrone(@RequestBody DroneDto drone) {
         Drone result = droneService.SaveDrone(drone);
         return ResponseEntity.ok(result);
     }

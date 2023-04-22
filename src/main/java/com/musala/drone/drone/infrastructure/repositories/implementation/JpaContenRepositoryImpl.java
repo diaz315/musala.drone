@@ -1,5 +1,6 @@
 package com.musala.drone.drone.infrastructure.repositories.implementation;
 
+import com.musala.drone.drone.domain.dto.ContentDto;
 import com.musala.drone.drone.domain.model.Medication;
 import com.musala.drone.drone.domain.ports.out.IContenRepositoryPort;
 import com.musala.drone.drone.infrastructure.entities.ContentEntity;
@@ -38,19 +39,19 @@ public class JpaContenRepositoryImpl implements IContenRepositoryPort {
     }
 
     @Override
-    public Medication SaveContent(Medication content) {
+    public ContentDto SaveContent(ContentDto content) {
         var tempContent = modelMapper.map(content,ContentEntity.class);
         var response = jpaContenRepository.save(tempContent);
-        var castResult = modelMapper.map(response, Medication.class);
+        var castResult = modelMapper.map(response, ContentDto.class);
 
         return castResult;
     }
 
     @Override
-    public List<Medication> GetGenericContentLoadedByDroneId(Long droneId)
+    public List<ContentDto> GetGenericContentLoadedByDroneId(Long droneId)
     {
         var result = jpaContenRepository.getContentLoadedByDroneId(droneId);
-        var cv = result.stream().map(rentity -> modelMapper.map(rentity,Medication.class)).collect(Collectors.toList());
+        var cv = result.stream().map(rentity -> modelMapper.map(rentity,ContentDto.class)).collect(Collectors.toList());
         return cv;
     }
 }

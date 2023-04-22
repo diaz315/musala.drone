@@ -1,5 +1,6 @@
 package com.musala.drone.drone.application.usecase;
 
+import com.musala.drone.drone.domain.dto.DroneDto;
 import com.musala.drone.drone.domain.model.Drone;
 import com.musala.drone.drone.domain.ports.in.drone.ICheckAvailableDronesForLoadingUseCase;
 import com.musala.drone.drone.domain.ports.out.IDroneRepositoryPort;
@@ -17,7 +18,7 @@ public class CheckAvailableDronesForLoadingUseCaseImpl implements ICheckAvailabl
     }
 
     @Override
-    public List<Drone> GetAvailableDrones() {
+    public List<DroneDto> GetAvailableDrones() {
         return repository.GetAvailableDrones();
     }
 }

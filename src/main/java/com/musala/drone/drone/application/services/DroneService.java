@@ -1,6 +1,7 @@
 package com.musala.drone.drone.application.services;
 
 import com.musala.drone.drone.domain.dto.ContentDto;
+import com.musala.drone.drone.domain.dto.DroneDto;
 import com.musala.drone.drone.domain.enums.State;
 import com.musala.drone.drone.domain.model.Drone;
 import com.musala.drone.drone.domain.model.Medication;
@@ -38,7 +39,7 @@ public class DroneService implements IDroneService {
     }
 
     @Override
-    public List<Drone> GetAvailableDrones()
+    public List<DroneDto> GetAvailableDrones()
     {
         return checkAvailableDronesForLoadingUseCase.GetAvailableDrones();
     }
@@ -50,7 +51,7 @@ public class DroneService implements IDroneService {
     }
 
     @Override
-    public List<Medication> CheckLoadedMedications(Long droneId)
+    public List<ContentDto> CheckLoadedMedications(Long droneId)
     {
         return checkLoadedMedicationItemsForAGivenDroneUseCase.CheckLoadedMedications(droneId);
     }
@@ -62,7 +63,7 @@ public class DroneService implements IDroneService {
     }
 
     @Override
-    public Drone SaveDrone(Drone drone) {
+    public Drone SaveDrone(DroneDto drone) {
         return registerDroneUseCase.SaveDrone(drone);
     }
 

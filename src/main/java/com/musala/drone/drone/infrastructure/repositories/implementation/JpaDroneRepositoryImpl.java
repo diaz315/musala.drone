@@ -1,5 +1,6 @@
 package com.musala.drone.drone.infrastructure.repositories.implementation;
 
+import com.musala.drone.drone.domain.dto.DroneDto;
 import com.musala.drone.drone.domain.enums.State;
 import com.musala.drone.drone.domain.model.Drone;
 import com.musala.drone.drone.domain.ports.out.IDroneRepositoryPort;
@@ -8,6 +9,7 @@ import com.musala.drone.drone.infrastructure.repositories.interfaces.IJpaDroneRe
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,19 +28,27 @@ public class JpaDroneRepositoryImpl implements IDroneRepositoryPort
     }
 
     @Override
-    public List<Drone> GetAvailableDrones() {
+    public List<DroneDto> GetAvailableDrones() {
          var query = jpaDroneRepository.findAllByState(State.IDLE);
 
          var result = query.stream()
-                .map(medicationEntity -> modelMapper.map(medicationEntity, Drone.class))
+                .map(medicationEntity -> modelMapper.map(medicationEntity, DroneDto.class))
                 .collect(Collectors.toList());
 
         return result;
     }
 
     @Override
-    public Drone SaveDrone(Drone drone) {
+    public Drone SaveDrone(DroneDto drone) {
         var dronEntity = modelMapper.map(drone, DroneEntity.class);
+
+        var serialDrone = jpaDroneRepository.findBySerialNumber(drone.getSerialNumber());
+
+        if(serialDrone != null)
+        {
+            throw new DataIntegrityViolationException("Serial number must be unique");
+        }
+
         DroneEntity savedContentEntity = jpaDroneRepository.save(dronEntity);
         return modelMapper.map(savedContentEntity, Drone.class);
     }

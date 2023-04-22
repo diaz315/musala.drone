@@ -7,5 +7,5 @@ import com.musala.drone.drone.domain.model.Medication;
 import java.util.List;
 
 public interface ILoadDroneWithMedicationItemsUseCase {
-    boolean LoadDrone(Long droneId, List<ContentDto> content);
+    boolean LoadDrone(Long droneId, List<ContentDto> content) throws Exception;
 }

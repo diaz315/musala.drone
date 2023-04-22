@@ -57,8 +57,7 @@ public class DroneService implements IDroneService {
     }
 
     @Override
-    public boolean LoadDrone(Long droneId, List<ContentDto> content)
-    {
+    public boolean LoadDrone(Long droneId, List<ContentDto> content) throws Exception {
         return loadDroneWithMedicationItemsUseCase.LoadDrone(droneId,content);
     }
 

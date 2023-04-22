@@ -56,19 +56,25 @@ public class JpaDroneRepositoryImpl implements IDroneRepositoryPort
     @Override
     public boolean ChangeStateDrone(Long droneid, State state)
     {
+        var dronEntity= jpaDroneRepository.findById(droneid);
+
+        if (dronEntity.isEmpty()) {
+            throw new EntityNotFoundException("Drone not found");
+        }
+
         var result =  jpaDroneRepository.changeStateDroneById(droneid,state);
         return result > 0;
     }
 
     @Override
     public Drone FindDroneById(Long droneid) {
-        var dronEntity= jpaDroneRepository.findById(droneid).get();
+        var dronEntity= jpaDroneRepository.findById(droneid);
 
-        if (dronEntity == null) {
+        if (dronEntity.isEmpty()) {
             throw new EntityNotFoundException("Drone not found");
         }
 
-        var drone = modelMapper.map(dronEntity, Drone.class);
+        var drone = modelMapper.map(dronEntity.get(), Drone.class);
         return drone;
     }
 }

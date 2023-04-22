@@ -77,7 +77,7 @@ public class DroneController {
                     content = @Content(mediaType = "application/json"))
     })
 
-    public ResponseEntity<Boolean> LoadDrone(@RequestBody DroneContentDto content) {
+    public ResponseEntity<Boolean> LoadDrone(@RequestBody DroneContentDto content) throws Exception {
         var result = droneService.LoadDrone(content.getDroneid(),content.getContentList());
         return ResponseEntity.ok(result);
     }

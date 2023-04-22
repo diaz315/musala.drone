@@ -1,9 +1,11 @@
 package com.musala.drone.drone.infrastructure.repositories.implementation;
 
 import com.musala.drone.drone.domain.dto.ContentDto;
+import com.musala.drone.drone.domain.dto.DroneDto;
 import com.musala.drone.drone.domain.model.Medication;
 import com.musala.drone.drone.domain.ports.out.IContenRepositoryPort;
 import com.musala.drone.drone.infrastructure.entities.ContentEntity;
+import com.musala.drone.drone.infrastructure.entities.DroneEntity;
 import com.musala.drone.drone.infrastructure.repositories.interfaces.IJpaContenRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,21 +28,24 @@ public class JpaContenRepositoryImpl implements IContenRepositoryPort {
 
     @Override
     //LoadDroneContent
-    public List<Medication> SaveContent(List<Medication> content) {
+    public List<ContentDto> SaveContent(List<ContentDto> content, DroneDto drone) {
         var tempContent = content.stream()
                 .map(conentenEntity -> modelMapper.map(conentenEntity, ContentEntity.class)).collect(Collectors.toList());
+
+        tempContent.forEach(contententity -> contententity.setDrone(modelMapper.map(drone, DroneEntity.class)));
 
         var response = jpaContenRepository.saveAll(tempContent);
 
         var cresp = response.stream()
-                .map(conentenEntity -> modelMapper.map(conentenEntity, Medication.class)).collect(Collectors.toList());
+                .map(conentenEntity -> modelMapper.map(conentenEntity, ContentDto.class)).collect(Collectors.toList());
 
         return cresp;
     }
 
     @Override
-    public ContentDto SaveContent(ContentDto content) {
+    public ContentDto SaveContent(ContentDto content, DroneDto drone) {
         var tempContent = modelMapper.map(content,ContentEntity.class);
+        tempContent.setDrone(modelMapper.map(drone,DroneEntity.class));
         var response = jpaContenRepository.save(tempContent);
         var castResult = modelMapper.map(response, ContentDto.class);
 

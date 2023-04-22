@@ -3,10 +3,12 @@ package com.musala.drone.drone.application.usecase;
 import com.musala.drone.drone.domain.model.Drone;
 import com.musala.drone.drone.domain.ports.in.drone.ICheckAvailableDronesForLoadingUseCase;
 import com.musala.drone.drone.domain.ports.out.IDroneRepositoryPort;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class CheckAvailableDronesForLoadingUseCaseImpl implements ICheckAvailableDronesForLoadingUseCase {
     private final IDroneRepositoryPort repository;
 
@@ -15,7 +17,7 @@ public class CheckAvailableDronesForLoadingUseCaseImpl implements ICheckAvailabl
     }
 
     @Override
-    public Optional<List<Drone>> GetAvailableDrones() {
+    public List<Drone> GetAvailableDrones() {
         return repository.GetAvailableDrones();
     }
 }

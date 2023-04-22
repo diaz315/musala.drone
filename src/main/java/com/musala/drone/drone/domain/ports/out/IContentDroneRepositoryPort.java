@@ -1,10 +1,9 @@
 package com.musala.drone.drone.domain.ports.out;
 
-import com.musala.drone.drone.domain.model.DroneContent;
-import com.musala.drone.drone.domain.model.GenericContent;
+import com.musala.drone.drone.domain.model.Medication;
 
 import java.util.List;
 
 public interface IContentDroneRepositoryPort {
-    public boolean LoadContentInDrone(Long droneid, List<GenericContent> contentList);
+    public boolean LoadContentInDrone(Long droneid, List<Medication> contentList);
 }

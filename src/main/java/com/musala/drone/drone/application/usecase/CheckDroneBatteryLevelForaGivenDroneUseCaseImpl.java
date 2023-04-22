@@ -2,9 +2,11 @@ package com.musala.drone.drone.application.usecase;
 
 import com.musala.drone.drone.domain.ports.in.drone.ICheckDroneBatteryLevelForaGivenDroneUseCase;
 import com.musala.drone.drone.domain.ports.out.IDroneRepositoryPort;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+@Component
 public class CheckDroneBatteryLevelForaGivenDroneUseCaseImpl implements ICheckDroneBatteryLevelForaGivenDroneUseCase {
     private final IDroneRepositoryPort repository;
 
@@ -15,6 +17,6 @@ public class CheckDroneBatteryLevelForaGivenDroneUseCaseImpl implements ICheckDr
     @Override
     public Optional<Integer> CheckDroneBattery(Long droneId)
     {
-        return Optional.of(repository.FindDroneById(droneId).get().getBatteryCapacity());
+        return Optional.of(repository.FindDroneById(droneId).getBatteryCapacity());
     }
 }

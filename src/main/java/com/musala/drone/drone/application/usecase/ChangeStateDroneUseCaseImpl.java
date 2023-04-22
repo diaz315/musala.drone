@@ -3,7 +3,9 @@ package com.musala.drone.drone.application.usecase;
 import com.musala.drone.drone.domain.enums.State;
 import com.musala.drone.drone.domain.ports.in.drone.IChangeStateDroneUseCase;
 import com.musala.drone.drone.domain.ports.out.IDroneRepositoryPort;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ChangeStateDroneUseCaseImpl implements IChangeStateDroneUseCase {
     private final IDroneRepositoryPort repository;
 

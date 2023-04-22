@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IDroneRepositoryPort {
-    public Optional<List<Drone>> GetAvailableDrones();
+    public List<Drone> GetAvailableDrones();
     public Drone SaveDrone(Drone drone);
     public boolean ChangeStateDrone(Long droneid, State state);
-    public Optional<Drone> FindDroneById(Long droneid);
+    public Drone FindDroneById(Long droneid);
 }

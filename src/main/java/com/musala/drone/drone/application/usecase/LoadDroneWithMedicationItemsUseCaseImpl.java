@@ -1,6 +1,7 @@
 package com.musala.drone.drone.application.usecase;
 
 import com.musala.drone.drone.application.exception.ApplicationException;
+import com.musala.drone.drone.application.usecase.validation.*;
 import com.musala.drone.drone.domain.enums.State;
 import com.musala.drone.drone.domain.model.Content;
 import com.musala.drone.drone.domain.model.Drone;
@@ -35,40 +36,27 @@ public class LoadDroneWithMedicationItemsUseCaseImpl implements ILoadDroneWithMe
     }
 
     @Override
-    public boolean LoadDrone(Long droneId, List<Content> contentList) throws ApplicationException {
-
-        if(contentList.isEmpty())
-            throw new ApplicationException("You must enter at least one content.");
+    public boolean LoadDrone(Long droneId, List<Content> contentList) throws ApplicationException
+    {
+        DroneContentEmpty.Validate(contentList);
 
         contentList.forEach(content -> {
-            if (!content.getName().matches("^[a-zA-Z0-9_-]*$")) {
-                throw new ApplicationException("Allowed only letters, numbers, ‘-‘, ‘_’");
-            }
-
-            if (!content.getCode().matches("^[0-9_]+$")) {
-                throw new ApplicationException("Allowed only underscore and numbers");
-            }
-
+            ContentAllowedOnlyLettersNumbers.Validate(content.getName());
+            ContentAllowedOnlyUnderscoreAndNumbers.Validate(content.getCode());
             content.setCode(content.getCode().toUpperCase());
         });
 
         Drone drone = droneRepository.FindDroneById(droneId);
-        if (drone == null)
-            throw new ApplicationException("Drone not found");
+        DroneNotFound.Validate(drone);
 
-        if(drone.getBatteryCapacity() < MinBatteryDroneToWork)
-            throw new ApplicationException(String.format("the battery level is below %s percent",MinBatteryDroneToWork));
-
-        if(drone.getState() != State.IDLE && drone.getState() != State.LOADING)
-            throw new ApplicationException(String.format("the drone with serial %s currently is busy",drone.getSerialNumber()));
-
-        //if(drone.getState() == State.IDLE && drone.getState() == State.LOADING){
+        BatteryLevelNotEnought.Validate(drone.getBatteryCapacity() , MinBatteryDroneToWork);
+        DroneIsBusy.Validate(drone.getState(),drone.getSerialNumber());
 
         var totalWeightOfContent = contentList.stream()
                 .map(cntList->cntList.getWeight())
                 .reduce((double) 0, Double::sum);
 
-        if(drone.getState() == State.LOADING) { //-----------------------------
+        if(drone.getState() == State.LOADING) {
             var currentDroneWeight = contentRepository.GetGenericContentLoadedByDroneId(droneId)
                     .stream()
                     .map(cntList->cntList.getWeight())
@@ -77,16 +65,10 @@ public class LoadDroneWithMedicationItemsUseCaseImpl implements ILoadDroneWithMe
             totalWeightOfContent+= currentDroneWeight;
         }
 
-        if(drone.getWeightLimit()<totalWeightOfContent)
-            throw new ApplicationException(String.format("the drone only supports %s grams and the total current content is %s weight",drone.getWeightLimit(),totalWeightOfContent));
-        //}
+        MaxDroneCapacity.Validate(drone.getWeightLimit(),totalWeightOfContent);
 
         //Change Drone status
-        if(drone.getWeightLimit() == totalWeightOfContent)
-            drone.setState(State.LOADED);
-        else
-            drone.setState(State.LOADING);
-
+        drone.setState(drone.getWeightLimit() == totalWeightOfContent? State.LOADED:State.LOADING);
         droneRepository.SaveDrone(drone);
 
         var tempCotent = contentList.stream().map(contenentity -> modelMapper.map(contenentity, Content.class)).collect(Collectors.toList());

@@ -1,5 +1,6 @@
 package com.musala.drone.drone.application.usecase;
 
+import com.musala.drone.drone.application.usecase.validation.DroneNotFound;
 import com.musala.drone.drone.domain.model.Content;
 import com.musala.drone.drone.domain.model.Drone;
 import com.musala.drone.drone.domain.ports.in.drone.ICheckLoadedMedicationItemsForAGivenDroneUseCase;
@@ -27,13 +28,8 @@ public class CheckLoadedMedicationItemsForAGivenDroneUseCaseImpl implements IChe
     public List<Content> CheckLoadedMedications(Long droneId)
     {
         Drone drone = droneRepository.FindDroneById(droneId);
-        if (drone == null) {
-            throw new EntityNotFoundException("Drone not found");
-        }
+        DroneNotFound.Validate(drone);
 
-        var content = contentRepository.GetGenericContentLoadedByDroneId(droneId);
-
-
-        return content;
+        return contentRepository.GetGenericContentLoadedByDroneId(droneId);
     }
 }

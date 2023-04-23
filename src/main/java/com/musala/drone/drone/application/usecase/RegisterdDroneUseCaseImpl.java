@@ -1,6 +1,7 @@
 package com.musala.drone.drone.application.usecase;
 
 import com.musala.drone.drone.application.exception.ApplicationException;
+import com.musala.drone.drone.application.usecase.validation.*;
 import com.musala.drone.drone.domain.model.Drone;
 import com.musala.drone.drone.domain.ports.in.drone.IRegisterdDroneUseCase;
 import com.musala.drone.drone.domain.ports.out.IDroneRepositoryPort;
@@ -18,39 +19,20 @@ public class RegisterdDroneUseCaseImpl implements IRegisterdDroneUseCase {
     @Override
     public Drone SaveDrone(Drone drone) {
 
-        if(drone.getSerialNumber().isEmpty())
-            throw new ApplicationException("You must enter the serial number");
+        EmptySerialNumber.Validate(drone.getSerialNumber());
+        MaxSerialNumberLength.Validate(drone.getSerialNumber());
+        MaxBattery.Validate(drone.getBatteryCapacity());
+        MinBattery.Validate(drone.getBatteryCapacity());
 
-        if( drone.getSerialNumber().length()>100)
-            throw new ApplicationException("The max value of characters is 100");
-
-        if(drone.getBatteryCapacity()>100)
-            throw new ApplicationException("The max battery must be 100");
-
-        if(drone.getBatteryCapacity()<0)
-            throw new ApplicationException("The min battery must be 0");
-
-        var existingSerialNumber = repository.FindBySerialNumber(drone.getSerialNumber());
+        var existingDrone = repository.FindBySerialNumber(drone.getSerialNumber());
 
         if(drone.getId()==null || drone.getId()==0){
-
-            if(existingSerialNumber != null)
-            {
-                throw new DataIntegrityViolationException("Serial number must be unique");
-            }
+            SerialNumberUnique.Validate(existingDrone);
         }else {
             var tmpdrone = repository.FindDroneById(drone.getId());
 
-            if(tmpdrone == null)
-                throw new ApplicationException("Drone not found");
-
-            if(existingSerialNumber != null &&
-                existingSerialNumber.getSerialNumber().equals(drone.getSerialNumber()) &&
-                existingSerialNumber.getId() != drone.getId()
-            )
-            {
-                throw new DataIntegrityViolationException("Serial number must be unique");
-            }
+            DroneNotFound.Validate(tmpdrone);
+            SerialNumberUnique.Validate(existingDrone,drone);
 
             tmpdrone.setState(drone.getState());
             tmpdrone.setModel(drone.getModel());

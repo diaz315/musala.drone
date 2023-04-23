@@ -49,6 +49,11 @@ public class DroneService implements IDroneService {
     }
 
     @Override
+    public void SetBatteryCharge(Long droneId, Integer battery) {
+        checkDroneBatteryLevelForaGivenDroneUseCase.SetBatteryCharge(droneId,battery);
+    }
+
+    @Override
     public List<Content> CheckLoadedMedications(Long droneId)
     {
         return checkLoadedMedicationItemsForAGivenDroneUseCase.CheckLoadedMedications(droneId);
@@ -61,6 +66,7 @@ public class DroneService implements IDroneService {
 
     @Override
     public Drone SaveDrone(Drone drone) {
+
         return registerDroneUseCase.SaveDrone(drone);
     }
 

@@ -1,11 +1,10 @@
 package com.musala.drone.drone.infrastructure.repositories.implementation;
 
-import com.musala.drone.drone.domain.model.Drone;
 import com.musala.drone.drone.domain.enums.State;
+import com.musala.drone.drone.domain.model.Drone;
 import com.musala.drone.drone.domain.ports.out.IDroneRepositoryPort;
 import com.musala.drone.drone.infrastructure.entities.DroneEntity;
 import com.musala.drone.drone.infrastructure.repositories.interfaces.IJpaDroneRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -38,15 +37,16 @@ public class JpaDroneRepositoryImpl implements IDroneRepositoryPort
     }
 
     @Override
+    public List<Drone> GetAllDrones() {
+        var result = jpaDroneRepository.findAll().stream()
+                .map(content -> modelMapper.map(content, Drone.class))
+                .collect(Collectors.toList());
+        return result;
+    }
+
+    @Override
     public Drone SaveDrone(Drone drone) {
         var dronEntity = modelMapper.map(drone, DroneEntity.class);
-
-        var serialDrone = jpaDroneRepository.findBySerialNumber(drone.getSerialNumber());
-
-        if(serialDrone != null)
-        {
-            throw new DataIntegrityViolationException("Serial number must be unique");
-        }
 
         DroneEntity savedContentEntity = jpaDroneRepository.save(dronEntity);
         return modelMapper.map(savedContentEntity, Drone.class);
@@ -55,12 +55,6 @@ public class JpaDroneRepositoryImpl implements IDroneRepositoryPort
     @Override
     public boolean ChangeStateDrone(Long droneid, State state)
     {
-        var dronEntity= jpaDroneRepository.findById(droneid);
-
-        if (dronEntity.isEmpty()) {
-            throw new EntityNotFoundException("Drone not found");
-        }
-
         var result =  jpaDroneRepository.changeStateDroneById(droneid,state);
         return result > 0;
     }
@@ -69,11 +63,22 @@ public class JpaDroneRepositoryImpl implements IDroneRepositoryPort
     public Drone FindDroneById(Long droneid) {
         var dronEntity= jpaDroneRepository.findById(droneid);
 
-        if (dronEntity.isEmpty()) {
-            throw new EntityNotFoundException("Drone not found");
-        }
+        if (dronEntity.isEmpty())
+            return null;
 
         var drone = modelMapper.map(dronEntity.get(), Drone.class);
         return drone;
+    }
+
+    @Override
+    public Drone FindBySerialNumber(String serialNumber)
+    {
+        var search =  jpaDroneRepository.findBySerialNumber(serialNumber);
+
+        if(search==null)
+            return null;
+
+        var result = modelMapper.map(search, Drone.class);
+        return result;
     }
 }

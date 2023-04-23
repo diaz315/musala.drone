@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface IDroneRepositoryPort {
     public List<Drone> GetAvailableDrones();
+    public List<Drone> GetAllDrones();
     public Drone SaveDrone(Drone drone);
-    public boolean ChangeStateDrone(Long droneid, State state);
-    public Drone FindDroneById(Long droneid);
+    public boolean ChangeStateDrone(Long droneId, State state);
+    public Drone FindDroneById(Long droneId);
+    public Drone FindBySerialNumber(String serialNumber);
 }

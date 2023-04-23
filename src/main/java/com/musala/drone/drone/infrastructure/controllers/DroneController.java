@@ -103,4 +103,15 @@ public class DroneController {
         return ResponseEntity.ok(result);
     }
 
+    @PostMapping("/setchargebattery")
+    @Operation(summary = "Charge drone battery")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful operation",
+                    content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json"))
+    })
+
+    public void CheckDroneBattery(Long droneId, Integer battery) {
+        droneService.SetBatteryCharge(droneId,battery);
+    }
+
 }

@@ -3,7 +3,9 @@ package com.musala.drone.drone.application.usecase;
 import com.musala.drone.drone.domain.enums.State;
 import com.musala.drone.drone.domain.ports.in.drone.IChangeStateDroneUseCase;
 import com.musala.drone.drone.domain.ports.out.IDroneRepositoryPort;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Component;
+
 
 @Component
 public class ChangeStateDroneUseCaseImpl implements IChangeStateDroneUseCase {
@@ -14,7 +16,14 @@ public class ChangeStateDroneUseCaseImpl implements IChangeStateDroneUseCase {
     }
 
     @Override
-    public boolean ChangeStateDrone(Long droneid, State state) {
+    public boolean ChangeStateDrone(Long droneid, State state)
+    {
+        var dronEntity= repository.FindDroneById(droneid);
+
+        if (dronEntity == null)
+        {
+            throw new EntityNotFoundException("Drone not found");
+        }
         return repository.ChangeStateDrone(droneid,state);
     }
 }

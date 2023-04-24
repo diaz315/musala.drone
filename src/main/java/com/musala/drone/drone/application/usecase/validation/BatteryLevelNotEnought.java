@@ -4,10 +4,8 @@ import com.musala.drone.drone.application.exception.ApplicationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-@Component
 public class BatteryLevelNotEnought {
-    @Value("${drone.validation.msg.batterylevelnotenought}")
-    private static String ErrorMsg;
+    private static String ErrorMsg = "The battery level is below %s percent";
 
     public static void Validate(Integer currentBattery, Integer minBatteryToWork){
         if(currentBattery < minBatteryToWork)

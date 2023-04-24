@@ -8,11 +8,17 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+
+import java.util.Random;
+import java.util.List;
+
 @EnableScheduling
 @Service
 public class DroneBatteryTaskCaseImpl
 {
     private static final Logger logger = LogManager.getLogger("CheckDronesBatteryTask");
+    private static final Random RANDOM = new Random();
+
 
     @Value("${drone.min.battery.drone.level.to.work}")
     private Integer MinBatteryDroneToWork;
@@ -29,38 +35,56 @@ public class DroneBatteryTaskCaseImpl
         this.repository = repository;
     }
 
-    @Scheduled(fixedRateString = "${drone.miliseconds.to.check.battery.task}")
+    @Scheduled(fixedDelay = 20000)
     public void dischargeBatteriesTask(){
         var result = repository.GetAllDrones();
         if(!result.isEmpty()){
+            var data = getRandomObjectFromList(result);
+
+            if(data!=null)
+            {
+                if(data.getBatteryCapacity()>0){
+                    data.setBatteryCapacity((data.getBatteryCapacity()-1));
+                    repository.SaveDrone(data);
+                }
+            }
+
+            /**
             result.forEach(data->{
                 if(data.getBatteryCapacity()>0){
                     data.setBatteryCapacity((data.getBatteryCapacity()-1));
                     repository.SaveDrone(data);
                 }
             });
+            **/
         }
     }
 
-    @Scheduled(fixedRateString = "${drone.miliseconds.to.check.battery.task}")
+    @Scheduled(fixedDelayString = "${drone.miliseconds.to.check.battery.task}")
     public void checkDronesBatteryTask()
     {
         var result = repository.GetAllDrones();
         if(!result.isEmpty()){
             result.forEach(data->
-                    {
-                        String status = data.getBatteryCapacity() < MinBatteryDroneToWork ? "low":"ok";
-                        String msg = String.format(LogBatteryMsg,data.getSerialNumber(),status,data.getBatteryCapacity());
+                {
+                    String status = data.getBatteryCapacity() < MinBatteryDroneToWork ? "low":"ok";
+                    String msg = String.format(LogBatteryMsg,data.getSerialNumber(),status,data.getBatteryCapacity());
 
-                        if(data.getBatteryCapacity() < MinBatteryDroneToWork){
-                            logger.warn(msg);
-                        }else{
-                            logger.info(msg);
-                        }
+                    if(data.getBatteryCapacity() < MinBatteryDroneToWork){
+                        logger.warn(msg);
+                    }else{
+                        logger.info(msg);
                     }
+                }
             );
         }else{
             logger.info(WithOutDroneMsg);
         }
+    }
+
+
+    public static <T> T getRandomObjectFromList(List<T> list) {
+        int index = RANDOM.nextInt(list.size());
+        return list.get(index);
     }
 }

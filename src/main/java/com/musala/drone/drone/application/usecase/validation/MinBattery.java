@@ -1,13 +1,11 @@
 package com.musala.drone.drone.application.usecase.validation;
 
 import com.musala.drone.drone.application.exception.ApplicationException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MinBattery {
-    @Value("${drone.validation.msg.minbattery}")
-    private static String ErrorMsg;
+    private static String ErrorMsg = "The min battery must be 0";
 
     public static void Validate(Integer battery){
         if(battery<0)

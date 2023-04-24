@@ -64,7 +64,7 @@ public class DroneController {
     }
 
     @PostMapping("/checkloadedmedication")
-    @Operation(summary = "Check Loaded content")
+    @Operation(summary = "Check Loaded content(if the load is equal to the maximum load, it automatically goes to state LOADED)")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful operation",
                     content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json"))
@@ -102,7 +102,7 @@ public class DroneController {
     }
 
     @PostMapping("/changestatedrone")
-    @Operation(summary = "Change state drone")
+    @Operation(summary = "Change state drone (When is change to DELIVERED all content is set to delivered) ")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful operation",
                     content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json"))

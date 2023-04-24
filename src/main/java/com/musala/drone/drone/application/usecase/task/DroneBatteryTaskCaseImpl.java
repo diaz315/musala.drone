@@ -1,5 +1,4 @@
 package com.musala.drone.drone.application.usecase.task;
-
 import com.musala.drone.drone.domain.ports.out.IDroneRepositoryPort;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -7,12 +6,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
-
 import java.util.Random;
 import java.util.List;
 
-//@EnableScheduling
+@EnableScheduling
 @Service
 public class DroneBatteryTaskCaseImpl
 {
@@ -38,25 +35,29 @@ public class DroneBatteryTaskCaseImpl
     @Scheduled(fixedDelay = 20000)
     public void dischargeBatteriesTask(){
         var result = repository.GetAllDrones();
-        if(result!=null && !result.isEmpty()){
-            var data = getRandomObjectFromList(result);
 
-            if(data!=null)
-            {
-                if(data.getBatteryCapacity()>0){
-                    data.setBatteryCapacity((data.getBatteryCapacity()-1));
-                    repository.SaveDrone(data);
+        boolean isIndividual = true;
+
+        if(isIndividual){
+            if(result!=null && !result.isEmpty()){
+                var data = getRandomObjectFromList(result);
+
+                if(data!=null)
+                {
+                    if(data.getBatteryCapacity()>0){
+                        data.setBatteryCapacity((data.getBatteryCapacity()-1));
+                        repository.SaveDrone(data);
+                    }
                 }
             }
-
-            /**
-            result.forEach(data->{
-                if(data.getBatteryCapacity()>0){
-                    data.setBatteryCapacity((data.getBatteryCapacity()-1));
-                    repository.SaveDrone(data);
-                }
-            });
-            **/
+        }else {
+             result.forEach(data->{
+             if(data.getBatteryCapacity()>0)
+             {
+                 data.setBatteryCapacity((data.getBatteryCapacity()-1));
+                 repository.SaveDrone(data);
+                 }
+             });
         }
     }
 

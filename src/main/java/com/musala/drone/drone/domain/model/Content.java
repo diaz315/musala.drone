@@ -15,4 +15,5 @@ public abstract class Content {
     private String code;
     private String image;
     private String type;
+    private Boolean isDelivered;
 }

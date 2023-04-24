@@ -76,4 +76,9 @@ public class JpaContenRepositoryImpl implements IContenRepositoryPort {
 
         return castList;
     }
+
+    @Override
+    public void UpdatedContentDeliveredStatus(Long droneId) {
+        jpaContenRepository.updatedContentDeliveredStatus(droneId);
+    }
 }

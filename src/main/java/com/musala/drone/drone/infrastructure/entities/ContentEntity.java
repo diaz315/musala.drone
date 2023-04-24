@@ -30,6 +30,9 @@ public class ContentEntity {
 
     @Column(name = "type")
     private String type;
+    
+    @Column(name = "isDelivered")
+    private Boolean isDelivered;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "drone_id")

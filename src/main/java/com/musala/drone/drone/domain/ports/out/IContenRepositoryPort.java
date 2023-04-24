@@ -10,4 +10,5 @@ public interface IContenRepositoryPort {
     public Content SaveContent(Content content, Drone drone);
 
     public List<Content> GetGenericContentLoadedByDroneId(Long contentid);
+    public void UpdatedContentDeliveredStatus(Long contentid);
 }

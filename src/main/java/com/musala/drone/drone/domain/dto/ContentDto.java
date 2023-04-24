@@ -14,4 +14,5 @@ public class ContentDto {
     private String code;
     private String image;
     private String type;
+    private Boolean isDelivered;
 }

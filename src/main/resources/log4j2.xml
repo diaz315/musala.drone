@@ -4,10 +4,13 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
         </Console>
-        <File name="CheckDronesBatteryTask" fileName="/logs/globallog.log/checkDronesBatteryTask.log">
+        <File name="CheckDronesBatteryTask" fileName="logs/checkDronesBatteryTask.log">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
         </File>
-        <File name="TaskBFile" fileName="/path/to/taskB.log">
+        <File name="GlobalError" fileName="logs/globalerror.log">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+        </File>
+        <File name="Testing" fileName="logs/testing.log">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
         </File>
     </Appenders>
@@ -15,11 +18,14 @@
         <Root level="info">
             <AppenderRef ref="Console" />
         </Root>
-        <Logger name="com.musala.drone.drone.application.usecase.checkDronesBatteryTask" level="info" additivity="false">
+        <Logger name="com.musala.drone.drone.application.usecase.task.checkdronesbatterytask" level="info" additivity="false">
             <AppenderRef ref="CheckDronesBatteryTask" />
         </Logger>
-        <Logger name="com.example.taskB" level="info" additivity="false">
-            <AppenderRef ref="TaskBFile" />
+        <Logger name="com.musala.drone.drone.infrastructure.config.globalerror" level="info" additivity="false">
+            <AppenderRef ref="GlobalError" />
+        </Logger>
+        <Logger name="testing" level="info" additivity="false">
+            <AppenderRef ref="Testing" />
         </Logger>
     </Loggers>
 </Configuration>

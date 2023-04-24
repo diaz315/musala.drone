@@ -12,10 +12,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class DroneBatteryTaskCaseImpl {
 
-    private static final Logger logger = LogManager.getLogger("com.musala.drone.drone.application.usecase.checkDronesBatteryTask");
+    //private static final Logger logger = LogManager.getLogger("com.musala.drone.drone.application.usecase.task.checkdronesbatterytask");
+    private static final Logger logger = LogManager.getLogger("testing");
 
     @Value("${drone.min.battery.drone.level.to.work}")
     private Integer MinBatteryDroneToWork;
+
+    @Value("${drone.msg.task.dronebatterytask.dischargebatteriestask.logbattery}")
+    private String LogBatteryMsg;
+
+    @Value("${drone.msg.task.dronebatterytask.checkdronesbatterytask.withoutdrone}")
+    private String WithOutDroneMsg;
 
     private final IDroneRepositoryPort repository;
 
@@ -44,7 +51,7 @@ public class DroneBatteryTaskCaseImpl {
             result.forEach(data->
                     {
                         String status = data.getBatteryCapacity() < MinBatteryDroneToWork ? "low":"ok";
-                        String msg = String.format("The drone with serial s% , level battery is s%, has s% % charge",data.getSerialNumber(),status,data.getBatteryCapacity());
+                        String msg = String.format(LogBatteryMsg,data.getSerialNumber(),status,data.getBatteryCapacity());
 
                         if(data.getBatteryCapacity() < MinBatteryDroneToWork){
                             logger.warn(msg);
@@ -54,7 +61,7 @@ public class DroneBatteryTaskCaseImpl {
                     }
             );
         }else{
-            logger.info("No drone available to check");
+            logger.info(WithOutDroneMsg);
         }
     }
 }

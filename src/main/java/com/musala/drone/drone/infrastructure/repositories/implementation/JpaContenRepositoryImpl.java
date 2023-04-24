@@ -1,5 +1,6 @@
 package com.musala.drone.drone.infrastructure.repositories.implementation;
 
+import com.musala.drone.drone.domain.factories.ContentFactory;
 import com.musala.drone.drone.domain.model.Content;
 import com.musala.drone.drone.domain.model.Drone;
 import com.musala.drone.drone.domain.ports.out.IContenRepositoryPort;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,12 +36,15 @@ public class JpaContenRepositoryImpl implements IContenRepositoryPort {
 
         tempContent.forEach(contententity -> contententity.setDrone(modelMapper.map(drone, DroneEntity.class)));
 
-        var response = jpaContenRepository.saveAll(tempContent);
+        List<ContentEntity> response = jpaContenRepository.saveAll(tempContent);
 
-        var cresp = response.stream()
-                .map(conentenEntity -> modelMapper.map(conentenEntity, Content.class)).collect(Collectors.toList());
+        List<Content> castList = new ArrayList<>();
+        response.forEach(tcontent->{
+            var type = ContentFactory.GetContent(tcontent.getType());
+            castList.add(modelMapper.map(tcontent, type.getClass()));
+        });
 
-        return cresp;
+        return castList;
     }
 
     @Override
@@ -47,7 +52,9 @@ public class JpaContenRepositoryImpl implements IContenRepositoryPort {
         var tempContent = modelMapper.map(content,ContentEntity.class);
         tempContent.setDrone(modelMapper.map(drone,DroneEntity.class));
         var response = jpaContenRepository.save(tempContent);
-        var castResult = modelMapper.map(response, Content.class);
+
+        var type = ContentFactory.GetContent(content.getType());
+        var castResult = modelMapper.map(response, type.getClass());
 
         return castResult;
     }
@@ -56,7 +63,17 @@ public class JpaContenRepositoryImpl implements IContenRepositoryPort {
     public List<Content> GetGenericContentLoadedByDroneId(Long droneId)
     {
         var result = jpaContenRepository.getContentLoadedByDroneId(droneId);
-        var cv = result.stream().map(rentity -> modelMapper.map(rentity, Content.class)).collect(Collectors.toList());
-        return cv;
+
+        List<Content> castList = new ArrayList<>();
+
+        if(result!=null && !result.isEmpty()){
+
+            result.forEach(content->{
+                var type = ContentFactory.GetContent(content.getType());
+                castList.add(modelMapper.map(content, type.getClass()));
+            });
+        }
+
+        return castList;
     }
 }

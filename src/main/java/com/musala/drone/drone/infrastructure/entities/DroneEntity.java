@@ -32,7 +32,7 @@ public class DroneEntity
     @Column(name = "state")
     private State state;
 
-    @OneToMany(mappedBy = "drone", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "drone", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<ContentEntity> medications = new ArrayList<>();
 }
 

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 public class EmptySerialNumber {
     private static String ErrorMsg = "You must enter the serial number";
     public static void Validate(String serialNumber){
-        if(serialNumber.isEmpty())
+        if(serialNumber==null || serialNumber.isEmpty())
             throw new ApplicationException(ErrorMsg);
     }
 }

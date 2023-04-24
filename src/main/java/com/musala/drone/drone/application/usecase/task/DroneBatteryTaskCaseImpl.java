@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Random;
 import java.util.List;
 
-@EnableScheduling
+//@EnableScheduling
 @Service
 public class DroneBatteryTaskCaseImpl
 {
@@ -38,7 +38,7 @@ public class DroneBatteryTaskCaseImpl
     @Scheduled(fixedDelay = 20000)
     public void dischargeBatteriesTask(){
         var result = repository.GetAllDrones();
-        if(!result.isEmpty()){
+        if(result!=null && !result.isEmpty()){
             var data = getRandomObjectFromList(result);
 
             if(data!=null)
@@ -64,7 +64,7 @@ public class DroneBatteryTaskCaseImpl
     public void checkDronesBatteryTask()
     {
         var result = repository.GetAllDrones();
-        if(!result.isEmpty()){
+        if(result!=null && !result.isEmpty()){
             result.forEach(data->
                 {
                     String status = data.getBatteryCapacity() < MinBatteryDroneToWork ? "low":"ok";

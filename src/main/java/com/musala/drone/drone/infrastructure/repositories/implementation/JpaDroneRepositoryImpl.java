@@ -31,7 +31,7 @@ public class JpaDroneRepositoryImpl implements IDroneRepositoryPort
          var query = jpaDroneRepository.findAllByState(State.IDLE);
 
          var result = query.stream()
-                .map(medicationEntity -> modelMapper.map(medicationEntity, Drone.class))
+                .map(contententity -> modelMapper.map(contententity, Drone.class))
                 .collect(Collectors.toList());
 
         return result;
@@ -64,7 +64,7 @@ public class JpaDroneRepositoryImpl implements IDroneRepositoryPort
     public Drone FindDroneById(Long droneid) {
         var dronEntity= jpaDroneRepository.findById(droneid);
 
-        if (dronEntity.isEmpty())
+        if (dronEntity ==null || dronEntity.isEmpty())
             return null;
 
         var drone = modelMapper.map(dronEntity.get(), Drone.class);

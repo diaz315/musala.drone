@@ -10,7 +10,7 @@ import java.util.List;
 public class DroneContentEmpty {
     private static String ErrorMsg = "You must enter at least one content.";
     public static void Validate(List<Content> contentList){
-        if(contentList.isEmpty())
+        if(contentList==null || contentList.isEmpty())
             throw new ApplicationException(ErrorMsg);
     }
 }

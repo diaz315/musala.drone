@@ -28,6 +28,9 @@ public class ContentEntity {
     @Column(name = "image")
     private String image;
 
+    @Column(name = "type")
+    private String type;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "drone_id")
     private DroneEntity drone;

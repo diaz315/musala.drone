@@ -11,9 +11,7 @@ import com.musala.drone.drone.domain.ports.out.IDroneRepositoryPort;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,16 +38,17 @@ public class LoadDroneWithMedicationItemsUseCaseImpl implements ILoadDroneWithMe
     @Override
     public boolean LoadDrone(Long droneId, List<Content> contentList) throws ApplicationException
     {
+        Drone drone = droneRepository.FindDroneById(droneId);
+        DroneNotFound.Validate(drone);
+
         DroneContentEmpty.Validate(contentList);
 
         contentList.forEach(content -> {
+            EmptyContentType.Validate(content.getType());
             ContentAllowedOnlyLettersNumbers.Validate(content.getName());
             ContentAllowedOnlyUnderscoreAndNumbers.Validate(content.getCode());
             content.setCode(content.getCode().toUpperCase());
         });
-
-        Drone drone = droneRepository.FindDroneById(droneId);
-        DroneNotFound.Validate(drone);
 
         BatteryLevelNotEnought.Validate(drone.getBatteryCapacity() , MinBatteryDroneToWork);
         DroneIsBusy.Validate(drone.getState(),drone.getSerialNumber());
@@ -77,6 +76,6 @@ public class LoadDroneWithMedicationItemsUseCaseImpl implements ILoadDroneWithMe
 
         var result = contentRepository.SaveContent(tempCotent,modelMapper.map(drone, Drone.class));
 
-        return !result.isEmpty();
+        return result!=null && !result.isEmpty();
     }
 }

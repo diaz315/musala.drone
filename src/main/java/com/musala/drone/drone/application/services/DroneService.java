@@ -1,17 +1,17 @@
 package com.musala.drone.drone.application.services;
 
+import com.musala.drone.drone.domain.enums.State;
 import com.musala.drone.drone.domain.model.Content;
 import com.musala.drone.drone.domain.model.Drone;
-import com.musala.drone.drone.domain.enums.State;
 import com.musala.drone.drone.domain.ports.in.drone.*;
 import com.musala.drone.drone.domain.ports.in.services.IDroneService;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Service
 @Transactional
 public class DroneService implements IDroneService {
     private final ICheckAvailableDronesForLoadingUseCase checkAvailableDronesForLoadingUseCase;

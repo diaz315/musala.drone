@@ -9,11 +9,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+@Repository
 public class JpaDroneRepositoryImpl implements IDroneRepositoryPort
 {
     private final IJpaDroneRepository jpaDroneRepository;

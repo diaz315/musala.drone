@@ -1,6 +1,5 @@
 package com.musala.drone.drone.infrastructure.config;
 
-import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final Logger logger = LogManager.getLogger("com.musala.drone.drone.infrastructure.config.globalerror");
+    private static final Logger logger = LogManager.getLogger("GlobalError");
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception ex) {

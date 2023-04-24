@@ -9,15 +9,16 @@ import com.musala.drone.drone.domain.ports.in.drone.ILoadDroneWithMedicationItem
 import com.musala.drone.drone.domain.ports.out.IContenRepositoryPort;
 import com.musala.drone.drone.domain.ports.out.IDroneRepositoryPort;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Transactional
-@Component
+@Service
 public class LoadDroneWithMedicationItemsUseCaseImpl implements ILoadDroneWithMedicationItemsUseCase {
     private final IDroneRepositoryPort droneRepository;
     private final IContenRepositoryPort contentRepository;
@@ -26,6 +27,7 @@ public class LoadDroneWithMedicationItemsUseCaseImpl implements ILoadDroneWithMe
     @Value("${drone.min.battery.drone.level.to.work}")
     private Integer MinBatteryDroneToWork;
 
+    @Autowired
     public LoadDroneWithMedicationItemsUseCaseImpl(
             IDroneRepositoryPort droneRepository,
             IContenRepositoryPort contentRepository, ModelMapper modelMapper)

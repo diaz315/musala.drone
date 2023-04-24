@@ -1,18 +1,19 @@
 package com.musala.drone.drone.application.usecase;
 
-import com.musala.drone.drone.application.exception.ApplicationException;
 import com.musala.drone.drone.application.usecase.validation.*;
 import com.musala.drone.drone.domain.model.Drone;
 import com.musala.drone.drone.domain.ports.in.drone.IRegisterdDroneUseCase;
 import com.musala.drone.drone.domain.ports.out.IDroneRepositoryPort;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class RegisterdDroneUseCaseImpl implements IRegisterdDroneUseCase {
     private final IDroneRepositoryPort repository;
 
-    public RegisterdDroneUseCaseImpl(IDroneRepositoryPort repository) {
+    @Autowired
+    public RegisterdDroneUseCaseImpl(IDroneRepositoryPort repository)
+    {
         this.repository = repository;
     }
 

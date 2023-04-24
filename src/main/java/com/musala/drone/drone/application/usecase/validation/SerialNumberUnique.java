@@ -3,7 +3,9 @@ package com.musala.drone.drone.application.usecase.validation;
 import com.musala.drone.drone.domain.model.Drone;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SerialNumberUnique {
     @Value("${drone.validation.msg.serialnumberunique}")
     private static String ErrorMsg;

@@ -3,9 +3,11 @@ package com.musala.drone.drone.application.usecase.validation;
 import com.musala.drone.drone.application.exception.ApplicationException;
 import com.musala.drone.drone.domain.model.Content;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class DroneContentEmpty {
     @Value("${drone.validation.msg.dronecontentempty}")
     private static String ErrorMsg;

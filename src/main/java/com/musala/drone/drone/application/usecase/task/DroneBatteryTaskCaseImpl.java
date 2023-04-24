@@ -6,14 +6,13 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 @EnableScheduling
-@Component
-public class DroneBatteryTaskCaseImpl {
-
-    //private static final Logger logger = LogManager.getLogger("com.musala.drone.drone.application.usecase.task.checkdronesbatterytask");
-    private static final Logger logger = LogManager.getLogger("testing");
+@Service
+public class DroneBatteryTaskCaseImpl
+{
+    private static final Logger logger = LogManager.getLogger("CheckDronesBatteryTask");
 
     @Value("${drone.min.battery.drone.level.to.work}")
     private Integer MinBatteryDroneToWork;

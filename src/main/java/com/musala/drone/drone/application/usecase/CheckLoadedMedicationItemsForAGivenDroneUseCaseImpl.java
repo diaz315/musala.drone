@@ -8,11 +8,13 @@ import com.musala.drone.drone.domain.ports.out.IContenRepositoryPort;
 import com.musala.drone.drone.domain.ports.out.IDroneRepositoryPort;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component
+@Service
 public class CheckLoadedMedicationItemsForAGivenDroneUseCaseImpl implements ICheckLoadedMedicationItemsForAGivenDroneUseCase {
     private final IContenRepositoryPort contentRepository;
     private final IDroneRepositoryPort droneRepository;

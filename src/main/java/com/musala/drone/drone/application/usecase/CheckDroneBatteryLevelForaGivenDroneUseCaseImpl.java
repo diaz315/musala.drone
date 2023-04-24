@@ -5,14 +5,17 @@ import com.musala.drone.drone.application.usecase.validation.MaxBattery;
 import com.musala.drone.drone.application.usecase.validation.MinBattery;
 import com.musala.drone.drone.domain.ports.in.drone.ICheckDroneBatteryLevelForaGivenDroneUseCase;
 import com.musala.drone.drone.domain.ports.out.IDroneRepositoryPort;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Component
+@Service
 public class CheckDroneBatteryLevelForaGivenDroneUseCaseImpl implements ICheckDroneBatteryLevelForaGivenDroneUseCase {
     private final IDroneRepositoryPort repository;
 
+    @Autowired
     public CheckDroneBatteryLevelForaGivenDroneUseCaseImpl(IDroneRepositoryPort repository)
     {
         this.repository = repository;

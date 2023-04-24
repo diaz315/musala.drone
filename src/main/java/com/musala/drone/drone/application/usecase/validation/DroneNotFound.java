@@ -3,7 +3,9 @@ package com.musala.drone.drone.application.usecase.validation;
 import com.musala.drone.drone.domain.model.Drone;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DroneNotFound {
     @Value("${drone.validation.msg.dronenotfound}")
     private static String ErrorMsg;

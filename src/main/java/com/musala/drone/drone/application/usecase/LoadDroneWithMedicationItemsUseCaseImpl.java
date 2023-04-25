@@ -22,8 +22,10 @@ public class LoadDroneWithMedicationItemsUseCaseImpl implements ILoadDroneWithMe
     private final IContenRepositoryPort contentRepository;
     private final ModelMapper modelMapper;
 
+    public Double TotalWeightOfContent;
+
     @Value("${drone.min.battery.drone.level.to.work}")
-    private Integer MinBatteryDroneToWork;
+    public Integer MinBatteryDroneToWork;
 
     @Autowired
     public LoadDroneWithMedicationItemsUseCaseImpl(
@@ -53,7 +55,7 @@ public class LoadDroneWithMedicationItemsUseCaseImpl implements ILoadDroneWithMe
         BatteryLevelNotEnought.Validate(drone.getBatteryCapacity() , MinBatteryDroneToWork);
         DroneIsBusy.Validate(drone.getState(),drone.getSerialNumber());
 
-        var totalWeightOfContent = contentList.stream()
+        TotalWeightOfContent = contentList.stream()
                 .map(cntList->cntList.getWeight())
                 .reduce((double) 0, Double::sum);
 
@@ -63,13 +65,13 @@ public class LoadDroneWithMedicationItemsUseCaseImpl implements ILoadDroneWithMe
                     .map(cntList->cntList.getWeight())
                     .reduce((double) 0, Double::sum);
 
-            totalWeightOfContent+= currentDroneWeight;
+            TotalWeightOfContent+= currentDroneWeight;
         }
 
-        MaxDroneCapacity.Validate(drone.getWeightLimit(),totalWeightOfContent);
+        MaxDroneCapacity.Validate(drone.getWeightLimit(),TotalWeightOfContent);
 
         //Change Drone status
-        drone.setState(drone.getWeightLimit() == totalWeightOfContent? State.LOADED:State.LOADING);
+        drone.setState(drone.getWeightLimit() == TotalWeightOfContent? State.LOADED:State.LOADING);
         droneRepository.SaveDrone(drone);
 
         var tempCotent = contentList.stream().map(contenentity -> modelMapper.map(contenentity, Content.class)).collect(Collectors.toList());

@@ -20,6 +20,7 @@ public class RegisterdDroneUseCaseImpl implements IRegisterdDroneUseCase {
     @Override
     public Drone SaveDrone(Drone drone) {
 
+        DroneCanNotBeNull.Validate(drone);
         EmptySerialNumber.Validate(drone.getSerialNumber());
         MaxSerialNumberLength.Validate(drone.getSerialNumber());
         MaxBattery.Validate(drone.getBatteryCapacity());

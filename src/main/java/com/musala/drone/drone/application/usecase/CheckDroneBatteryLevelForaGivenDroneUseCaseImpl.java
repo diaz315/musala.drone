@@ -35,8 +35,8 @@ public class CheckDroneBatteryLevelForaGivenDroneUseCaseImpl implements ICheckDr
 
         //Validation
         DroneNotFound.Validate(drone);
-        MaxBattery.Validate(drone.getBatteryCapacity());
-        MinBattery.Validate(drone.getBatteryCapacity());
+        MaxBattery.Validate(battery);
+        MinBattery.Validate(battery);
 
         drone.setBatteryCapacity(battery);
         repository.SaveDrone(drone);

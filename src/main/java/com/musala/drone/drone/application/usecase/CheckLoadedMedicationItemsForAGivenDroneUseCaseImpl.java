@@ -18,12 +18,10 @@ import java.util.List;
 public class CheckLoadedMedicationItemsForAGivenDroneUseCaseImpl implements ICheckLoadedMedicationItemsForAGivenDroneUseCase {
     private final IContenRepositoryPort contentRepository;
     private final IDroneRepositoryPort droneRepository;
-    private final ModelMapper modelMapper;
 
-    public CheckLoadedMedicationItemsForAGivenDroneUseCaseImpl(IContenRepositoryPort contentRepository, IDroneRepositoryPort droneRepository, ModelMapper modelMapper) {
+    public CheckLoadedMedicationItemsForAGivenDroneUseCaseImpl(IContenRepositoryPort contentRepository, IDroneRepositoryPort droneRepository) {
         this.contentRepository = contentRepository;
         this.droneRepository = droneRepository;
-        this.modelMapper = modelMapper;
     }
 
     @Override

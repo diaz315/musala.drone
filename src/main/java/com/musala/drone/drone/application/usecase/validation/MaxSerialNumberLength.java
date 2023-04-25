@@ -8,7 +8,7 @@ public class MaxSerialNumberLength {
     private static String ErrorMsg = "The max value of characters is 100";
 
     public static void Validate(String serialNumber){
-        if(serialNumber.length()>100)
+        if(serialNumber != null && !serialNumber.isEmpty() && serialNumber.length()>100)
             throw new ApplicationException(ErrorMsg);
     }
 }
